@@ -1,0 +1,765 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Rampinelli Mods</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a dark masthead with search, a hero band, a tab row and a catalogue grid, then how to buy and the footer. */
+:root {
+  --bg: #121417;
+  --topo: #0c0e10;
+  --surface: #1c1f24;
+  --surface-2: #242830;
+  --line: #2a2f36;
+  --fg: #e7eaee;
+  --muted: #9aa3ad;
+  --green: #22c55e;
+  --green-ink: #0b1a10;
+  --green-line: #2d6b44;
+  --gold: #eab308;
+  --gold-ink: #1a1400;
+  --gold-line: #7a6312;
+  --focus: #eab308;
+  --scrim: rgba(0, 0, 0, 0.72);
+  color-scheme: dark;
+  --f-titulo: "Oswald", "Arial Narrow", "Franklin Gothic Medium", sans-serif;
+  --f-texto: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-texto); font-size: 15px; line-height: 1.55; }
+button, input, select { font: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Icons */
+.ico { width: 18px; height: 18px; flex: none; }
+.ico-sm { width: 14px; height: 14px; flex: none; }
+
+/* Top bar: the solid ground runs up through the safe-area strip. */
+.topo {
+  background: var(--topo);
+  border-bottom: 1px solid var(--line);
+  margin-top: calc(-1 * env(safe-area-inset-top, 0px));
+  padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem);
+  padding-bottom: 0.9rem;
+}
+.topo-linha { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.logo {
+  display: flex; align-items: center; gap: 0.6rem; color: var(--fg); text-decoration: none;
+  font-family: var(--f-titulo); font-weight: 700; font-size: 1.3rem; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.logo-marca {
+  width: 38px; height: 38px; display: grid; place-items: center;
+  background: var(--green); color: var(--green-ink); border-radius: 4px;
+}
+.logo-marca svg { width: 26px; height: 26px; }
+.nav { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+.nav a { color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 0.3rem 0; }
+.nav a:hover { color: var(--fg); }
+
+.ferramentas { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.9rem; }
+.busca { position: relative; flex: 1 1 240px; min-width: 0; }
+.busca .ico { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.busca input, .versao-sel select {
+  width: 100%; padding: 0.7rem 0.9rem; border-radius: 4px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+}
+.busca input { padding-left: 2.5rem; }
+.versao-sel { flex: 0 0 auto; }
+.versao-sel select { width: auto; min-width: 9.5rem; }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero-arte { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-veu {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(18, 20, 23, 0.97) 0%, rgba(18, 20, 23, 0.78) 50%, rgba(18, 20, 23, 0.25) 100%);
+}
+.hero-conteudo { position: relative; padding-block: clamp(3rem, 9vw, 6rem); }
+.hero h1 {
+  font-family: var(--f-titulo); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(2.5rem, 7.5vw, 5rem); line-height: 0.95; letter-spacing: 0.01em;
+  margin: 0 0 1rem; max-width: 12ch; text-wrap: balance;
+}
+.hero p { color: var(--muted); max-width: 50ch; margin: 0 0 1.8rem; font-size: 1.05rem; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-family: var(--f-titulo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.95rem;
+  padding: 0.7rem 1.1rem; border-radius: 4px; border: 1px solid var(--line);
+  background: var(--surface-2); color: var(--fg); cursor: pointer; text-decoration: none; text-align: center;
+  flex: 1 1 auto; min-width: 0;
+}
+.btn-verde { background: var(--green); border-color: var(--green); color: var(--green-ink); }
+.btn-ouro { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+.btn-hero { padding: 0.9rem 1.5rem; font-size: 1.05rem; flex: 0 0 auto; }
+.btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+.btn:disabled { opacity: 0.7; cursor: progress; }
+
+/* Tabs */
+.abas {
+  display: flex; flex-wrap: wrap; gap: 0.45rem;
+  padding: 2rem 0 1rem; border-bottom: 1px solid var(--line);
+}
+.aba {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--f-titulo); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.92rem;
+  padding: 0.55rem 0.95rem; border-radius: 4px; border: 1px solid var(--line);
+  background: transparent; color: var(--muted); cursor: pointer;
+}
+.aba:hover { color: var(--fg); }
+.aba[aria-selected="true"] { background: var(--green); border-color: var(--green); color: var(--green-ink); }
+.aba-ouro { color: var(--gold); border-color: var(--gold-line); }
+.aba-ouro[aria-selected="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+
+#contagem { margin: 1.1rem 0 0; color: var(--muted); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+
+/* Catalogue */
+.catalogo { padding-bottom: 3rem; }
+.grid {
+  list-style: none; margin: 1rem 0 0; padding: 0;
+  display: grid; gap: 1.1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+}
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  display: flex; flex-direction: column; height: 100%; min-width: 0; overflow: hidden;
+  animation: surgir 0.35s ease-out both;
+  transition: border-color 0.15s ease;
+}
+.card:hover { border-color: #3a414b; }
+.card.pago { border-color: var(--gold-line); }
+.card.pago:hover { border-color: var(--gold); }
+@keyframes surgir { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.thumb {
+  position: relative; display: grid; place-items: center; height: 150px; width: 100%;
+  border: 0; border-bottom: 1px solid var(--line); cursor: pointer; color: var(--green);
+  background:
+    radial-gradient(circle at 75% 15%, rgba(34, 197, 94, 0.16), transparent 60%),
+    repeating-linear-gradient(-16deg, #1f2730 0 14px, #1a2029 14px 28px);
+}
+.thumb svg { width: 96px; height: 96px; }
+.card.pago .thumb { color: var(--gold); background:
+    radial-gradient(circle at 75% 15%, rgba(234, 179, 8, 0.16), transparent 60%),
+    repeating-linear-gradient(-16deg, #262319 0 14px, #1f1c14 14px 28px); }
+.etiqueta {
+  position: absolute; left: 0.6rem; top: 0.6rem;
+  font-family: var(--f-titulo); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em;
+  background: var(--bg); color: var(--fg); padding: 0.15rem 0.5rem; border-radius: 3px; border: 1px solid var(--line);
+}
+.selo {
+  position: absolute; right: 0.6rem; top: 0.6rem;
+  font-family: var(--f-titulo); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
+  background: var(--gold); color: var(--gold-ink); padding: 0.2rem 0.55rem; border-radius: 3px;
+}
+
+.card-corpo { padding: 1rem 1rem 0.5rem; display: flex; flex-direction: column; gap: 0.45rem; flex: 1; min-width: 0; }
+.card-cat {
+  margin: 0; font-family: var(--f-titulo); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+}
+.card h3, .painel h2 {
+  font-family: var(--f-titulo); font-weight: 600; font-size: 1.4rem; line-height: 1.1; margin: 0; text-wrap: balance;
+}
+.resumo {
+  margin: 0; color: var(--muted); font-size: 0.92rem;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.preco { margin: 0.3rem 0 0; font-family: var(--f-titulo); font-weight: 700; font-size: 1.6rem; color: var(--gold); }
+.fatos {
+  list-style: none; margin: auto 0 0; padding: 0.5rem 0 0;
+  display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem;
+  font-size: 0.82rem; color: var(--muted);
+}
+.acoes { display: flex; gap: 0.5rem; padding: 0.7rem 1rem 1rem; }
+
+.vazio {
+  grid-column: 1 / -1; display: grid; gap: 0.8rem; justify-items: start;
+  padding: 2rem 1.25rem; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted);
+}
+.vazio p { margin: 0; }
+
+/* Explanation and call to action */
+.secao { padding-block: 3.5rem; border-top: 1px solid var(--line); }
+.secao-titulo {
+  font-family: var(--f-titulo); font-weight: 700; text-transform: uppercase; font-size: clamp(1.8rem, 4vw, 2.5rem);
+  letter-spacing: 0.01em; margin: 0 0 0.5rem; text-wrap: balance;
+}
+.secao-texto { color: var(--muted); max-width: 60ch; margin: 0 0 2rem; }
+.passos { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.passo {
+  background: var(--surface); border: 1px solid var(--green-line); border-radius: 6px; padding: 1.2rem;
+  display: flex; flex-direction: column; gap: 0.5rem; min-width: 0;
+}
+.passo:nth-child(2) { border-color: var(--gold-line); }
+.passo h3 { font-family: var(--f-titulo); font-weight: 600; font-size: 1.25rem; margin: 0; line-height: 1.15; text-wrap: balance; }
+.passo p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+.passo .card-cat { color: var(--green); }
+.passo:nth-child(2) .card-cat { color: var(--gold); }
+.cta { display: flex; justify-content: center; margin-top: 2.2rem; }
+.cta .btn { flex: 0 1 auto; padding: 0.95rem 1.6rem; font-size: 1.05rem; }
+
+/* Footer */
+.rodape { border-top: 1px solid var(--line); background: var(--topo); padding-block: 2.2rem 2.5rem; color: var(--muted); font-size: 0.9rem; }
+.rodape-linha { display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; justify-content: space-between; align-items: flex-start; }
+.rodape-marca { font-family: var(--f-titulo); font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg); margin: 0 0 0.4rem; }
+.rodape p { margin: 0; max-width: 56ch; }
+.redes { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.redes a, .redes span {
+  display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 0.8rem; border-radius: 4px;
+  border: 1px solid var(--line); color: var(--fg); text-decoration: none; font-size: 0.9rem;
+}
+.redes a:hover { border-color: var(--green); }
+.redes [aria-disabled="true"] { color: var(--muted); opacity: 0.6; cursor: not-allowed; }
+.direitos { margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid var(--line); font-size: 0.82rem; }
+
+/* Detail modal */
+.modal {
+  position: fixed; inset: 0; z-index: 20;
+  display: grid; place-items: center;
+  padding-top: max(16px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.modal-fundo { position: absolute; inset: 0; background: var(--scrim); }
+.painel {
+  position: relative; width: min(780px, 100%); max-height: 100%; overflow: auto;
+  display: grid; grid-template-columns: 1fr; min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+}
+@media (min-width: 680px) {
+  .painel { grid-template-columns: 0.9fr 1.1fr; }
+}
+.painel.pago { border-color: var(--gold-line); }
+.painel-arte {
+  display: grid; place-items: center; min-height: 200px; color: var(--green);
+  background:
+    radial-gradient(circle at 70% 15%, rgba(34, 197, 94, 0.16), transparent 60%),
+    repeating-linear-gradient(-16deg, #1f2730 0 14px, #1a2029 14px 28px);
+  border-bottom: 1px solid var(--line);
+}
+.painel.pago .painel-arte { color: var(--gold); background:
+    radial-gradient(circle at 70% 15%, rgba(234, 179, 8, 0.16), transparent 60%),
+    repeating-linear-gradient(-16deg, #262319 0 14px, #1f1c14 14px 28px); }
+@media (min-width: 680px) { .painel-arte { border-bottom: 0; border-right: 1px solid var(--line); } }
+.painel-arte .ilustra { width: 160px; height: 160px; }
+.painel-texto { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+.fechar {
+  position: absolute; top: 0.6rem; right: 0.6rem; z-index: 1;
+  width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--fg); font-size: 1.3rem; line-height: 1; cursor: pointer;
+}
+.painel-texto .card-cat { padding-right: 2.5rem; }
+.m-descricao { margin: 0; color: var(--fg); }
+.specs { display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1rem; margin: 0.3rem 0 0; font-size: 0.92rem; }
+.specs dt { color: var(--muted); }
+.specs dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.recursos { margin: 0.2rem 0 0; padding-left: 1.1rem; color: var(--fg); font-size: 0.92rem; }
+.recursos li { margin-bottom: 0.2rem; }
+.recursos li::marker { color: var(--green); }
+.painel.pago .recursos li::marker { color: var(--gold); }
+.m-acao { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.6rem; }
+.m-acao .btn { flex: none; width: 100%; }
+.progresso { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.progresso span { display: block; height: 100%; width: 0; background: var(--green); transition: width 0.12s linear; }
+.status { margin: 0; font-size: 0.9rem; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; transition: none; }
+  .progresso span { transition: none; }
+}
+</style>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-trator" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="18" cy="41" r="11"/><circle cx="50" cy="47" r="6"/>
+      <path d="M7 30h21V20h10v10h10v8H7z"/><path d="M38 20V12h8v18"/>
+    </g></symbol>
+    <symbol id="i-colheita" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="14" cy="44" r="8"/><circle cx="46" cy="46" r="9"/>
+      <path d="M4 34h34V18h14v16h8v8H4z"/><path d="M22 18V8h10v10"/>
+    </g></symbol>
+    <symbol id="i-implemento" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 22h52"/><path d="M12 22v24M22 22v24M32 22v24M42 22v24M52 22v24"/><path d="M8 46h48"/>
+    </g></symbol>
+    <symbol id="i-caminhao" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="18" width="34" height="24" rx="2"/><path d="M38 26h10l8 9v7H38"/>
+      <circle cx="14" cy="46" r="6"/><circle cx="32" cy="46" r="6"/><circle cx="50" cy="46" r="6"/>
+    </g></symbol>
+    <symbol id="i-mapa" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 14L22 9L38 14L54 9V51L38 56L22 51L6 56Z"/><path d="M22 9V51M38 14V56"/><path d="M28 34c4-5 8 5 12 0"/>
+    </g></symbol>
+    <symbol id="i-coroa" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 44L12 20L24 32L32 14L40 32L52 20L56 44Z"/><path d="M8 52H56"/>
+    </g></symbol>
+    <symbol id="ic-download" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></symbol>
+    <symbol id="ic-fb" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.3c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.4V14h2.7v8z"/></symbol>
+    <symbol id="ic-busca" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></g></symbol>
+    <symbol id="ic-escudo" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></symbol>
+    <symbol id="ic-estrela" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.6l-5.3 2.8 1.2-6-4.5-4.1 6-.7z"/></symbol>
+  </defs>
+</svg>
+
+<header class="topo">
+  <div class="wrap">
+    <div class="topo-linha">
+      <a class="logo" href="#topo">
+        <span class="logo-marca"><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#i-trator"/></svg></span>
+        Rampinelli Mods
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#catalogo">Lançamentos</a>
+        <a href="#como-funciona">Como comprar</a>
+      </nav>
+    </div>
+    <div class="ferramentas">
+      <div class="busca">
+        <label for="busca" class="sr">Buscar por nome ou marca</label>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-busca"/></svg>
+        <input id="busca" type="search" placeholder="Buscar por nome ou marca" autocomplete="off">
+      </div>
+      <div class="versao-sel">
+        <label for="versao" class="sr">Versão do jogo</label>
+        <select id="versao">
+          <option value="Todas">Todas as versões</option>
+          <option value="FS19">FS19</option>
+          <option value="FS22">FS22</option>
+          <option value="FS25">FS25</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="topo">
+  <svg class="hero-arte" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <rect width="800" height="420" fill="#121417"/>
+    <g stroke="#22c55e" stroke-opacity="0.16" stroke-width="2">
+      <path d="M0 300L800 250"/><path d="M0 330L800 280"/><path d="M0 360L800 310"/><path d="M0 390L800 340"/><path d="M0 420L800 370"/>
+    </g>
+    <use href="#i-trator" x="500" y="80" width="300" height="300" color="#eab308" opacity="0.9"/>
+  </svg>
+  <div class="hero-veu"></div>
+  <div class="wrap hero-conteudo">
+    <h1>Máquinas de verdade para a sua fazenda</h1>
+    <p>A equipe Rampinelli Mods cria tratores, colheitadeiras, implementos e mapas para Farming Simulator, com foco em realismo e gameplay.</p>
+    <a class="btn btn-verde btn-hero" href="#catalogo" data-rolar>Explorar lançamentos</a>
+  </div>
+</section>
+
+<main id="catalogo" class="catalogo">
+  <div class="wrap">
+    <div class="abas" id="abas" role="tablist" aria-label="Categorias"></div>
+    <p id="contagem" aria-live="polite"></p>
+    <ul id="grid" class="grid"></ul>
+  </div>
+</main>
+
+<section id="como-funciona" class="secao">
+  <div class="wrap">
+    <h2 class="secao-titulo">Como funcionam os pacotes pagos</h2>
+    <p class="secao-texto">Os pacotes de gameplay são vendidos com atendimento direto pela equipe. Veja como funciona a compra.</p>
+    <ol class="passos">
+      <li class="passo">
+        <p class="card-cat">Passo 1</p>
+        <h3>Escolha seu mod ou pacote</h3>
+        <p>Navegue pela aba Mods Pagos (Gameplay) para conferir scripts exclusivos, físicas realistas e maquinários customizados.</p>
+      </li>
+      <li class="passo">
+        <p class="card-cat">Passo 2</p>
+        <h3>Atendimento direto no Facebook</h3>
+        <p>Clique em adquirir para ir ao grupo oficial da Rampinelli Mods e falar diretamente com a equipe.</p>
+      </li>
+      <li class="passo">
+        <p class="card-cat">Passo 3</p>
+        <h3>Entrega rápida e suporte na instalação</h3>
+        <p>Depois da confirmação, você recebe o link exclusivo do arquivo e suporte dedicado caso precise de ajuda para ativar no seu save.</p>
+      </li>
+    </ol>
+    <div class="cta">
+      <a class="btn btn-ouro" href="https://www.facebook.com/share/g/19u3T8rdKT/" target="_blank" rel="noopener noreferrer">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-fb"/></svg>
+        Entrar no grupo / Pedir suporte no Facebook
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="wrap">
+    <div class="rodape-linha">
+      <div>
+        <p class="rodape-marca">Rampinelli Mods</p>
+        <p>Mods de Farming Simulator criados pela equipe Rampinelli Mods. Suporte, novidades e lançamentos pelo grupo oficial.</p>
+      </div>
+      <div class="redes">
+        <a href="https://www.facebook.com/share/g/19u3T8rdKT/" target="_blank" rel="noopener noreferrer">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-fb"/></svg>
+          Facebook
+        </a>
+        <span aria-disabled="true" title="Em breve">YouTube em breve</span>
+        <span aria-disabled="true" title="Em breve">WhatsApp em breve</span>
+      </div>
+    </div>
+    <p class="direitos">© <span id="ano"></span> Rampinelli Mods. Todos os direitos reservados. Farming Simulator é marca registrada da GIANTS Software. Os mods deste site são criações independentes e não têm vínculo oficial com a GIANTS Software.</p>
+  </div>
+</footer>
+
+<div id="modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="m-titulo">
+  <div id="m-fundo" class="modal-fundo"></div>
+  <div id="painel" class="painel">
+    <button id="m-fechar" class="fechar" type="button" aria-label="Fechar">&times;</button>
+    <div id="m-arte" class="painel-arte"></div>
+    <div class="painel-texto">
+      <p id="m-cat" class="card-cat"></p>
+      <h2 id="m-titulo"></h2>
+      <p id="m-descricao" class="m-descricao"></p>
+      <dl id="m-specs" class="specs"></dl>
+      <ul id="m-recursos" class="recursos"></ul>
+      <div id="m-acao" class="m-acao"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/*
+  EDITE AQUI: os 12 mods abaixo são fictícios, para você trocar pelos reais.
+  - url: link do arquivo para download. Deixe "" enquanto não houver link: o botão mostra "Em breve" ou
+    leva o cliente ao grupo do Facebook.
+  - pago: true para os pacotes de gameplay vendidos pelo Facebook (aparecem na aba Mods Pagos).
+  - categoria: "Tratores", "Colheitadeiras", "Implementos", "Caminhões e Reboques", "Mapas" ou "Gameplay".
+*/
+const MODS = [
+  { nome: "Trator Série 500 IC", categoria: "Tratores", versao: "FS22", marca: "Rampinelli Mods", tamanho: "145 MB", pago: false, url: "",
+    descricao: "Trator de linha pesada com IC interativo e configurações de motor e transmissão para o trabalho no campo.",
+    specs: [["Potência", "210 cv"], ["Velocidade", "45 km/h"]],
+    recursos: ["IC interativo", "Configurações reais de motor e transmissão", "Engate frontal e traseiro"] },
+  { nome: "Trator Compacto 4x4", categoria: "Tratores", versao: "FS19", marca: "Rampinelli Mods", tamanho: "88 MB", pago: false, url: "",
+    descricao: "Trator compacto para pequenas propriedades, com tração 4x4 e consumo de combustível realista.",
+    specs: [["Potência", "95 cv"], ["Velocidade", "30 km/h"]],
+    recursos: ["Tração 4x4", "Consumo de combustível realista", "Compatível com implementos leves"] },
+  { nome: "Colheitadeira TX5.90 arrozeira", categoria: "Colheitadeiras", versao: "FS19", marca: "Rampinelli Mods", tamanho: "31,5 MB", pago: true, url: "",
+    descricao: "Colheitadeira de médio porte com plataforma de corte de 7,6 m e tanque de grãos de 7.500 litros.",
+    specs: [["Potência", "272 cv"], ["Tanque", "7.500 L"]],
+    recursos: ["Plataforma de corte de 7,6 m", "Tanque de 7.500 litros", "Controle de descarga automático"] },
+  { nome: "Colheitadeira Cana Plus", categoria: "Colheitadeiras", versao: "FS22", marca: "Rampinelli Mods", tamanho: "175 MB", pago: false, url: "",
+    descricao: "Colheitadeira para cana-de-açúcar com corte de base e sistema de limpeza para lavouras de alta produção.",
+    specs: [["Potência", "330 cv"], ["Velocidade", "32 km/h"]],
+    recursos: ["Corte de base", "Sistema de limpeza", "Carregamento lateral"] },
+  { nome: "Plantadeira Pneumática 24 Linhas", categoria: "Implementos", versao: "FS19", marca: "Rampinelli Mods", tamanho: "62 MB", pago: false, url: "",
+    descricao: "Plantadeira pneumática com 24 linhas e controle de profundidade para o plantio em diferentes solos.",
+    specs: [["Linhas", "24"], ["Largura", "12 m"]],
+    recursos: ["24 linhas de plantio", "Controle de profundidade", "Sensor de sementes"] },
+  { nome: "Grade Niveladora Hidráulica", categoria: "Implementos", versao: "FS22", marca: "Rampinelli Mods", tamanho: "41 MB", pago: false, url: "",
+    descricao: "Grade niveladora com ajuste hidráulico de ângulo para preparar o solo antes do plantio.",
+    specs: [["Largura", "6 m"], ["Peso", "3,2 t"]],
+    recursos: ["Ajuste hidráulico de ângulo", "Preparo do solo antes do plantio", "Compatível com tratores de linha pesada"] },
+  { nome: "Carreta Graneleira 30 t", categoria: "Caminhões e Reboques", versao: "FS25", marca: "Rampinelli Mods", tamanho: "98 MB", pago: false, url: "",
+    descricao: "Carreta graneleira de três eixos para transporte de grãos com lona e descarga traseira.",
+    specs: [["Capacidade", "30 t"], ["Eixos", "3"]],
+    recursos: ["Capacidade de 30 toneladas", "Lona de proteção", "Descarga traseira"] },
+  { nome: "Caminhão Basculante 6x4", categoria: "Caminhões e Reboques", versao: "FS22", marca: "Rampinelli Mods", tamanho: "120 MB", pago: false, url: "",
+    descricao: "Caminhão basculante 6x4 para obras e transporte de terra, com caçamba reforçada.",
+    specs: [["Potência", "380 cv"], ["Capacidade", "18 t"]],
+    recursos: ["Caçamba reforçada", "Tração 6x4", "Basculamento hidráulico"] },
+  { nome: "Mapa Fazenda Vale Verde", categoria: "Mapas", versao: "FS25", marca: "Rampinelli Mods", tamanho: "1,2 GB", pago: false, url: "",
+    descricao: "Mapa com 4 km² de terras agrícolas, silos, estradas e rios, pensado para uma fazenda completa.",
+    specs: [["Área", "4 km²"], ["Silos", "6"]],
+    recursos: ["4 km² de terras agrícolas", "Seis silos", "Estradas e rios integrados"] },
+  { nome: "Pacote Solo Vivo", categoria: "Gameplay", versao: "FS25", marca: "Rampinelli Mods", pago: true, url: "", preco: "R$ 25,00",
+    descricao: "Umidade, compactação e drenagem do solo que influenciam o crescimento das culturas.",
+    specs: [["Tipo", "Script de gameplay"]],
+    recursos: ["Umidade e compactação do solo", "Drenagem por tipo de terreno", "Impacto direto na produção"] },
+  { nome: "Manutenção Realista", categoria: "Gameplay", versao: "FS22", marca: "Rampinelli Mods", pago: true, url: "", preco: "R$ 35,00",
+    descricao: "Peças com desgaste, oficina e custos de reparo para as máquinas da sua fazenda.",
+    specs: [["Tipo", "Script de gameplay"]],
+    recursos: ["Desgaste de peças", "Oficina e custos de reparo", "Manutenção programada"] },
+  { nome: "Scripts de Gameplay Pro", categoria: "Gameplay", versao: "FS25", marca: "Rampinelli Mods", pago: true, url: "", preco: "R$ 40,00",
+    descricao: "Missões de campo, pagamentos dinâmicos e eventos de clima que mudam a rotina da fazenda.",
+    specs: [["Tipo", "Pacote de missões"]],
+    recursos: ["Missões de campo", "Pagamentos dinâmicos", "Eventos de clima"] }
+];
+
+const FB = "https://www.facebook.com/share/g/19u3T8rdKT/";
+const NS = "http://www.w3.org/2000/svg";
+const ABAS = [
+  { id: "Todos", label: "Todos" },
+  { id: "Tratores", label: "Tratores" },
+  { id: "Colheitadeiras", label: "Colheitadeiras" },
+  { id: "Implementos", label: "Implementos" },
+  { id: "Caminhões e Reboques", label: "Caminhões e Reboques" },
+  { id: "Mapas", label: "Mapas" },
+  { id: "Pagos", label: "Mods Pagos (Gameplay)", ouro: true }
+];
+const SIMBOLOS = {
+  "Tratores": "i-trator",
+  "Colheitadeiras": "i-colheita",
+  "Implementos": "i-implemento",
+  "Caminhões e Reboques": "i-caminhao",
+  "Mapas": "i-mapa",
+  "Gameplay": "i-coroa"
+};
+const reduzMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const $ = (s) => document.querySelector(s);
+const abasEl = $("#abas");
+const grid = $("#grid");
+const contagem = $("#contagem");
+const busca = $("#busca");
+const versaoSel = $("#versao");
+const modal = $("#modal");
+const painel = $("#painel");
+const mArte = $("#m-arte");
+const mCat = $("#m-cat");
+const mTitulo = $("#m-titulo");
+const mDescricao = $("#m-descricao");
+const mSpecs = $("#m-specs");
+const mRecursos = $("#m-recursos");
+const mAcao = $("#m-acao");
+const mFechar = $("#m-fechar");
+
+const estado = { aba: "Todos", versao: "Todas", q: "" };
+let ultimoFoco = null;
+
+const norm = (s) => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+function el(tag, attrs = {}, texto) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v;
+    else n.setAttribute(k, v);
+  }
+  if (texto !== undefined) n.textContent = texto;
+  return n;
+}
+
+function icone(id, { vb = "0 0 64 64", classe = "" } = {}) {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", vb);
+  s.setAttribute("aria-hidden", "true");
+  s.setAttribute("focusable", "false");
+  if (classe) s.setAttribute("class", classe);
+  const u = document.createElementNS(NS, "use");
+  u.setAttribute("href", "#" + id);
+  s.append(u);
+  return s;
+}
+
+const texto = (t) => document.createTextNode(t);
+const simbolo = (m) => (m.pago ? SIMBOLOS.Gameplay : SIMBOLOS[m.categoria] || "i-trator");
+
+function filtrados() {
+  const q = norm(estado.q.trim());
+  return MODS
+    .filter((m) => {
+      if (estado.aba === "Pagos") return m.pago;
+      return estado.aba === "Todos" || m.categoria === estado.aba;
+    })
+    .filter((m) => estado.versao === "Todas" || m.versao === estado.versao)
+    .filter((m) => !q || norm([m.nome, m.marca, m.categoria, m.descricao].join(" ")).includes(q));
+}
+
+function renderAbas() {
+  abasEl.replaceChildren(...ABAS.map((a) => {
+    const b = el("button", {
+      type: "button",
+      role: "tab",
+      class: "aba" + (a.ouro ? " aba-ouro" : ""),
+      "aria-selected": String(estado.aba === a.id)
+    });
+    if (a.ouro) b.append(icone("ic-estrela", { vb: "0 0 24 24", classe: "ico-sm" }));
+    b.append(texto(a.label));
+    b.addEventListener("click", () => {
+      estado.aba = a.id;
+      renderAbas();
+      render();
+    });
+    return b;
+  }));
+}
+
+function baixarBotao(m) {
+  if (m.url) {
+    return el("a", { class: "btn btn-verde", href: m.url, target: "_blank", rel: "noopener noreferrer" }, "Baixar");
+  }
+  return el("span", { class: "btn btn-verde", "aria-disabled": "true" }, "Em breve");
+}
+
+function card(m) {
+  const li = el("li");
+  const art = el("article", { class: "card" + (m.pago ? " pago" : "") });
+
+  const capa = el("button", { class: "thumb", type: "button", "aria-label": "Ver detalhes de " + m.nome });
+  capa.append(el("span", { class: "etiqueta" }, m.versao));
+  if (m.pago) capa.append(el("span", { class: "selo" }, "Exclusivo / Pago"));
+  capa.append(icone(simbolo(m)));
+  capa.addEventListener("click", () => abrir(m));
+
+  const corpo = el("div", { class: "card-corpo" });
+  corpo.append(
+    el("p", { class: "card-cat" }, m.categoria),
+    el("h3", {}, m.nome),
+    el("p", { class: "resumo" }, m.descricao)
+  );
+  if (m.pago && m.preco) corpo.append(el("p", { class: "preco" }, m.preco));
+  const fatos = el("ul", { class: "fatos" });
+  fatos.append(el("li", {}, m.pago ? "Entrega pelo grupo" : "Tamanho: " + m.tamanho));
+  corpo.append(fatos);
+
+  const acoes = el("div", { class: "acoes" });
+  if (m.pago) {
+    const detalhes = el("button", { class: "btn", type: "button" }, "Detalhes");
+    detalhes.addEventListener("click", () => abrir(m));
+    const compra = el("a", { class: "btn btn-ouro", href: FB, target: "_blank", rel: "noopener noreferrer" });
+    compra.append(icone("ic-fb", { vb: "0 0 24 24", classe: "ico" }), texto("Adquirir via Facebook"));
+    acoes.append(detalhes, compra);
+  } else {
+    const ver = el("button", { class: "btn btn-verde", type: "button" }, "Ver detalhes / Baixar");
+    ver.addEventListener("click", () => abrir(m));
+    acoes.append(ver);
+  }
+
+  art.append(capa, corpo, acoes);
+  li.append(art);
+  return li;
+}
+
+function vazio() {
+  const li = el("li", { class: "vazio" });
+  const b = el("button", { class: "btn btn-verde", type: "button" }, "Limpar filtros");
+  b.addEventListener("click", limpar);
+  li.append(el("p", {}, "Nenhum mod encontrado com esses filtros."), b);
+  return li;
+}
+
+function render() {
+  const lista = filtrados();
+  if (lista.length) grid.replaceChildren(...lista.map(card));
+  else grid.replaceChildren(vazio());
+  contagem.textContent = lista.length === 1 ? "1 mod encontrado" : lista.length + " mods encontrados";
+}
+
+function limpar() {
+  estado.aba = "Todos";
+  estado.versao = "Todas";
+  estado.q = "";
+  busca.value = "";
+  versaoSel.value = "Todas";
+  renderAbas();
+  render();
+}
+
+function iniciarDownload(m, botao) {
+  botao.disabled = true;
+  const barra = el("div", {
+    class: "progresso",
+    role: "progressbar",
+    "aria-label": "Preparando download",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100",
+    "aria-valuenow": "0"
+  });
+  const preench = el("span");
+  barra.append(preench);
+  const status = el("p", { class: "status", "aria-live": "polite" }, "Preparando download...");
+  mAcao.append(barra, status);
+
+  let p = 0;
+  const t = setInterval(() => {
+    p = Math.min(100, p + 7);
+    preench.style.width = p + "%";
+    barra.setAttribute("aria-valuenow", String(p));
+    if (p === 100) {
+      clearInterval(t);
+      if (m.url) {
+        status.textContent = "Arquivo pronto para baixar.";
+        mAcao.append(el("a", { class: "btn btn-verde", href: m.url, target: "_blank", rel: "noopener noreferrer" }, "Abrir arquivo"));
+      } else {
+        status.textContent = "Este mod ainda não tem link de arquivo. Peça o download no grupo do Facebook.";
+        const grupo = el("a", { class: "btn btn-ouro", href: FB, target: "_blank", rel: "noopener noreferrer" });
+        grupo.append(icone("ic-fb", { vb: "0 0 24 24", classe: "ico" }), texto("Ir para o grupo"));
+        mAcao.append(grupo);
+      }
+    }
+  }, reduzMovimento ? 40 : 110);
+}
+
+function abrir(m) {
+  ultimoFoco = document.activeElement;
+  painel.classList.toggle("pago", !!m.pago);
+  mArte.replaceChildren(icone(simbolo(m), { classe: "ilustra" }));
+  mCat.textContent = m.categoria + " · " + m.versao;
+  mTitulo.textContent = m.nome;
+  mDescricao.textContent = m.descricao;
+
+  const pares = [
+    ["Versão do jogo", m.versao],
+    ["Autor", m.marca],
+    m.pago ? ["Entrega", "Pelo grupo do Facebook"] : ["Tamanho", m.tamanho],
+    ...m.specs
+  ];
+  mSpecs.replaceChildren(...pares.flatMap(([k, v]) => [el("dt", {}, k), el("dd", {}, v)]));
+  mRecursos.replaceChildren(...m.recursos.map((r) => el("li", {}, r)));
+
+  mAcao.replaceChildren();
+  if (m.pago) {
+    if (m.preco) mAcao.append(el("p", { class: "preco" }, m.preco));
+    const compra = el("a", { class: "btn btn-ouro", href: FB, target: "_blank", rel: "noopener noreferrer" });
+    compra.append(icone("ic-fb", { vb: "0 0 24 24", classe: "ico" }), texto("Falar no Facebook para comprar"));
+    mAcao.append(compra);
+  } else {
+    const dl = el("button", { class: "btn btn-verde", type: "button" });
+    dl.append(icone("ic-download", { vb: "0 0 24 24", classe: "ico" }), texto("Download direto"));
+    dl.addEventListener("click", () => iniciarDownload(m, dl));
+    mAcao.append(dl);
+  }
+
+  modal.hidden = false;
+  mFechar.focus();
+}
+
+function fechar() {
+  modal.hidden = true;
+  mAcao.replaceChildren();
+  if (ultimoFoco) ultimoFoco.focus();
+}
+
+busca.addEventListener("input", () => {
+  estado.q = busca.value;
+  render();
+});
+
+versaoSel.addEventListener("change", () => {
+  estado.versao = versaoSel.value;
+  render();
+});
+
+mFechar.addEventListener("click", fechar);
+$("#m-fundo").addEventListener("click", fechar);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !modal.hidden) fechar();
+});
+
+document.querySelectorAll("[data-rolar]").forEach((a) => {
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    $("#catalogo").scrollIntoView({ behavior: reduzMovimento ? "auto" : "smooth" });
+  });
+});
+
+$("#ano").textContent = String(new Date().getFullYear());
+
+renderAbas();
+render();
+</script>
